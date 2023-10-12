@@ -8,7 +8,7 @@ def space_down(e):  # e = event
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_SPACE
 
 
-def time_out(e):
+def time_out_3(e):
     return e[0] == 'TIME_OUT'
 
 
@@ -36,6 +36,22 @@ def left_up(e):
     print('LEFT_UP')
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_LEFT
 
+class AutoRun:
+    @staticmethod
+    def enter(boy, e):
+        print('Auto Start')
+        pass
+    @staticmethod
+    def exit(boy,e):
+        print('Auto Exit')
+        pass
+    @staticmethod
+    def do(boy):
+        pass
+    @staticmethod
+    def draw(boy): # 소년의 속도 빨라지고, 크기 커짐, 좌우측 끝에서 방향 전환
+        # 기본 boy : boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y)
+        pass
 
 class Sleep:
     @staticmethod
@@ -118,10 +134,10 @@ class Idle:
 class StateMactine:
     def __init__(self, boy):
         self.boy = boy
-        self.cur_state = Idle
+        self.cur_state = AutoRun
         self.transitions = {
             Idle: {right_down: Run, left_down: Run, left_up: Run, right_up: Run,
-                   time_out: Sleep},  # time_out event를 발생시키지 않음
+                   time_out_3: Sleep},  # time_out event를 발생시키지 않음
             Sleep: {right_down: Run, left_down: Run, left_up: Run, right_up: Run,
                     space_down: Idle},  # Sleep에서 space_down일경우 Idle로 감 -> handle_event에서 변환해야 함
             Run: {right_down: Idle, left_down: Idle, right_up: Idle, left_up: Idle}
